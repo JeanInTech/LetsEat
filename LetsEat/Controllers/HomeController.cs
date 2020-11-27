@@ -11,16 +11,43 @@ namespace LetsEat.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly RecipeDAL _dal;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(RecipeDAL dal)
         {
-            _logger = logger;
+            _dal = dal;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> SearchResults(string DishName, string Ingredients, int Page)
+        {
+            TempData["DishName"] = DishName;
+            TempData["Ingredients"] = Ingredients;
+            TempData["QueryDescription"] = BuildQueryDescription(DishName, Ingredients);
+            TempData["Page"] = Page;
+            Rootobject ro;
+
+            if (DishName == null)
+            {
+                ro = await _dal.SeachByIngredientsAsync(Ingredients, Page);
+                
+            }
+            else if (Ingredients == null)
+            {
+                ro = await _dal.FindRecipesAsync(DishName, Page);
+            }
+            else
+            {
+                ro = await _dal.FindRecipesAsync(DishName, Ingredients, Page);
+            }
+
+            Result[] results = ro.results;
+
+            return View(results);
         }
 
         public IActionResult Privacy()
@@ -32,6 +59,26 @@ namespace LetsEat.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public string BuildQueryDescription(string DishName, string Ingredients)
+        {
+            string queryDescription = "";
+
+            if (DishName == null)
+            {
+                queryDescription = $"Recipes containing: '{Ingredients}'";
+            }
+            else if (Ingredients == null)
+            {
+                queryDescription = $"Recipes matching: '{DishName}'";
+            }
+            else
+            {
+                queryDescription = $"Recipes matching: '{DishName}' containing: '{Ingredients}'";
+            }
+
+            return queryDescription;
         }
     }
 }
