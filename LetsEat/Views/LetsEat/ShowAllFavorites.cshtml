@@ -1,7 +1,11 @@
 ﻿@model List<FavoriteRecipeViewModel>
 
+<div class="jumbotron">
+    <h1 class="body">Your Favorite Recipes</h1>
+</div>
 <table class="table table-bordered table-striped table-dark table-hover">
     <tr>
+
         <th>Name</th>
         <th>Link to Recipe</th>
         <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["CategorySortParm"]">@Html.DisplayNameFor(model => model[0].Category)</a></th>
@@ -11,13 +15,15 @@
     @foreach (FavoriteRecipeViewModel r in Model)
     {
         <tr>
-            <td>@r.Title</td>
-            <td>@r.RecipeUrl</td>
-            <td>@r.Category</td>
-            <td>@r.Rating</td>
+            <td><a href="@r.RecipeUrl"><img src="@r.Thumbnail" /></a></td>
+            <td style="text-align:center">@r.Title</td>
+            <td>@r.Ingredients</td>
+            <td style="text-align:center">@r.Rating </td>
+            <td style="text-align:center">@r.Category</td>
             <td>
                 <a asp-controller="LetsEat" asp-action="EditFavorite" asp-route-id="@r.RecipeID">Edit</a>
             </td>
+            <td><a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.Id" class="btn btn-danger align">Remove Favorite</a></td>
         </tr>
     }
 </table>
