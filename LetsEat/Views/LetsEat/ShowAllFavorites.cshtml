@@ -1,14 +1,17 @@
-﻿@model List<FavoriteRecipes>
+@model List<FavoriteRecipes>
 
+<div class="jumbotron">
+    <h1 class="body">Your Favorite Recipes</h1>
+</div>
 <table class="table table-bordered table-striped table-dark table-hover">
     <tr>
-        <th>Recipe Link</th>
-        <th>Name</th>
-        <th>Ingredients</th>
-        <th>Rating</th>
-        <th>Category</th>
-        <th>Update Rating and Category</th>
-        <th>Remove Favorite</th>
+        <th style="text-align:center">Link</th>
+        <th style="text-align:center">Recipe Name</th>
+        <th style="text-align:center">Ingredients</th>
+        <th style="text-align:center">Rating</th>
+        <th style="text-align:center">Category</th>
+        <th style="text-align:center">Update</th>
+        <th style="text-align:center">Remove</th>
     </tr>
     @if (Model != null)
     {
@@ -27,8 +30,8 @@
                 <td>@r.Ingredients</td>
                 <td>@r.Rating </td>
                 <td>@r.Category</td>
-                <td><a asp-controller="LetsEat" asp-action="UpdateFavorite" asp-route-id="@r.Id">Update Rating and Category</a></td>
-                <td><a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.Id">Remove</a></td>
+                <td><a asp-controller="LetsEat" asp-action="UpdateFavorite" asp-route-id="@r.Id" class="btn btn-success align-content-center">Update Rating and Category</a></td>
+                <td><a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.Id" class="btn btn-danger align">Remove Favorite</a></td>
             </tr>
         }
     }
