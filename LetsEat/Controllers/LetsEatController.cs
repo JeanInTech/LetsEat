@@ -12,7 +12,7 @@ namespace LetsEat.Controllers
     [Authorize]
     public class LetsEatController : Controller
     {
-        private readonly LetsEatContext _db; 
+        private readonly LetsEatContext _db;
         public LetsEatController(LetsEatContext db)
         {
             _db = db;
@@ -28,7 +28,7 @@ namespace LetsEat.Controllers
             return View(RecipeList);
         }
         [HttpPost]
-        public async Task<IActionResult> AddToFavorites(string title, string href, string ingredients, string thumbnail) 
+        public async Task<IActionResult> AddToFavorites(string title, string href, string ingredients, string thumbnail)
         {
             FavoriteRecipes r = new FavoriteRecipes();
             r.Title = title;
@@ -51,7 +51,30 @@ namespace LetsEat.Controllers
             }
             return View("GetRecipe");
         }
+        [HttpGet]
+        public IActionResult UpdateFavorite(int Id)
+        {
+            FavoriteRecipes r = _db.FavoriteRecipes.Find(Id);
+            return View(Id);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateFavorite(FavoriteRecipes r)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.Update(r);
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction("ShowAllFavorties");
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteFavorite(FavoriteRecipes r)
+        {
+            _db.FavoriteRecipes.Remove(r);
+            await _db.SaveChangesAsync();
 
+            return RedirectToAction("ShowAllFavorites");
+        }
         public string FindUser()
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
