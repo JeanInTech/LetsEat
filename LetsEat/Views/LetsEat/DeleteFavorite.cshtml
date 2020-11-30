@@ -1,0 +1,21 @@
+﻿@model FavoriteRecipes
+
+<h4>Are you sure you want to remove "@Model.Title" from your favorites? </h4>
+<dl class="row">
+    <dt class="col-sm-3">Ingredients</dt>
+    <dd class="col-sm-9">@Model.Ingredients</dd>
+    <dt class="col-sm-3">Rating</dt>
+    <dd class="col-sm-9">@Model.Rating</dd>
+    <dt class="col-sm-3">Category</dt>
+    <dd class="col-sm-9">@Model.Category</dd>
+</dl>
+<form asp-controller="LetsEat" asp-action="DeleteFavorite" method="post">
+    <input type="hidden" name="Title" value="@Model.Title" />
+    <input type="hidden" name="RecipeUrl" value="@Model.RecipeUrl" />
+    <input type="hidden" name="Ingredients" value="@Model.Ingredients" />
+    <input type="hidden" name="Thumbnail" value="@Model.Thumbnail" />
+    <input type="hidden" name="Rating" value="@Model.Rating" />
+    <input type="hidden" name="Category" value="@Model.Category" />
+    <input type="submit" value="Yes" />
+    <input type="submit" value="No" asp-controller="LetsEat" asp-action="ShowAllFavorites" />
+</form>

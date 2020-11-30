@@ -55,21 +55,31 @@ namespace LetsEat.Controllers
         public IActionResult UpdateFavorite(int Id)
         {
             FavoriteRecipes r = _db.FavoriteRecipes.Find(Id);
-            return View(Id);
+            return View(r);
         }
         [HttpPost]
         public async Task<IActionResult> UpdateFavorite(FavoriteRecipes r)
         {
             if (ModelState.IsValid)
             {
-                _db.Update(r);
+                _db.FavoriteRecipes.Update(r);
                 await _db.SaveChangesAsync();
             }
-            return RedirectToAction("ShowAllFavorties");
+            return RedirectToAction("ShowAllFavorites");
+        }
+        [HttpGet]
+        public IActionResult DeleteFavorite(int Id)
+        {
+            FavoriteRecipes r = _db.FavoriteRecipes.Find(Id);
+
+            return View(r);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteFavorite(FavoriteRecipes r)
         {
+            var recipe = _db.UserFavoriteRecipes.Where(x => x.RecipeId == r.Id).First();
+            _db.UserFavoriteRecipes.Remove(recipe);
+
             _db.FavoriteRecipes.Remove(r);
             await _db.SaveChangesAsync();
 
