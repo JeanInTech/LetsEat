@@ -35,7 +35,7 @@ namespace LetsEat
             services.AddDbContext<LetsEatContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<LetsEatContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
