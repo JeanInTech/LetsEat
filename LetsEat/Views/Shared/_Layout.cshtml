@@ -20,10 +20,15 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Search Recipes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="LetsEat" asp-action="ShowAllFavorites">Favorite Recipes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="LetsEat" asp-action="RandomFavorite">What Should I Eat?</a>
                         </li>
                     </ul>
                 </div>
@@ -36,7 +41,7 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-light bg-success">
         <div class="container">
             &copy; 2020 - Let's Eat
         </div>
