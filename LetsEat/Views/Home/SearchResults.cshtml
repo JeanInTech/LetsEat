@@ -10,7 +10,7 @@
         <th>Link</th>
     </tr>
     @foreach (Result r in Model)
-    { 
+    {
         <tr>
             @if (r.thumbnail != null)
             {
@@ -19,10 +19,19 @@
             <td>@r.title</td>
             <td>@r.ingredients</td>
             <td><a href="@r.href">View Recipe</a></td>
+            <td>
+                <form asp-controller="LetsEat" asp-action="GetRecipe" method="get">
+                    <input type="hidden" name="title" value="@r.title" />
+                    <input type="hidden" name="href" value="@r.href" />
+                    <input type="hidden" name="ingredients" value="@r.ingredients" />
+                    <input type="hidden" name="thumbnail" value="@r.thumbnail" />
+                    <input type="submit" value="Add to Favorites" />
+                </form>
+            </td>
         </tr>
     }
 </table>
-@{ 
+@{
     int pageNumber = (int)TempData.Peek("Page");
     int nextPage = pageNumber;
     nextPage++;

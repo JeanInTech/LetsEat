@@ -1,0 +1,16 @@
+﻿@model List<FavoriteRecipes>
+
+<table class="table table-bordered table-striped table-dark table-hover">
+    <tr>
+        <th>Name</th>
+        <th>Link to Recipe</th>
+    </tr>
+
+    @foreach (FavoriteRecipes r in Model)
+    {
+        <tr>
+            <td>@r.Title</td>
+            <td>@r.RecipeUrl</td>
+        </tr>
+    }
+</table>
