@@ -27,17 +27,15 @@ namespace LetsEat.Controllers
 
             return View(RecipeList);
         }
-        [HttpGet]
-        public IActionResult GetRecipe(Result r)
-        {
-            TempData["Name"] = r.title;
-
-            return View(r);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> AddToFavorites(FavoriteRecipes r)
+        public async Task<IActionResult> AddToFavorites(string title, string href, string ingredients, string thumbnail) 
         {
+            FavoriteRecipes r = new FavoriteRecipes();
+            r.Title = title;
+            r.RecipeUrl = href;
+            r.Ingredients = ingredients;
+            r.Thumbnail = thumbnail;
+
             if (ModelState.IsValid)
             {
                 await _db.FavoriteRecipes.AddAsync(r);

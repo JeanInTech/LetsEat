@@ -32,11 +32,11 @@ namespace LetsEat
             {
                 client.BaseAddress = new Uri("http://www.recipepuppy.com/api/");
             });
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<LetsEatContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<LetsEatContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
