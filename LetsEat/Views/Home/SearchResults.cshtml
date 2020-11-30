@@ -22,7 +22,7 @@
             <td>
                 <form asp-controller="LetsEat" asp-action="AddToFavorites" method="post">
                     <input type="hidden" name="title" value="@r.title" />
-                    <input type="hidden" name="href" value="@r.href" />
+                    <input type="hidden" name="recipeUrl" value="@r.href" />
                     <input type="hidden" name="ingredients" value="@r.ingredients" />
                     <input type="hidden" name="thumbnail" value="@r.thumbnail" />
                     <input type="submit" value="Add to Favorites" />

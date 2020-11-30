@@ -17,15 +17,92 @@ namespace LetsEat.Controllers
         {
             _db = db;
         }
-        public IActionResult ShowAllFavorites()
+        public IActionResult ShowAllFavorites(string sortOrder)
         {
+            ViewData["CategorySortParm"] = sortOrder == "Category" ? "Category_desc" : "Category";
+            ViewData["RatingSortParm"] = sortOrder == "Rating" ? "Rating_desc" : "Rating";
             var user = FindUser();
             var recipes = from all in _db.FavoriteRecipes
-                          where _db.UserFavoriteRecipes.Any(x => x.UserId == user)
-                          select all;
-            List<FavoriteRecipes> RecipeList = recipes.ToList();
+                            join Recipe in _db.UserFavoriteRecipes on all.Id equals Recipe.RecipeId
+                            where Recipe.UserId.Equals(user)
+                            select all;
 
-            return View(RecipeList);
+            List<FavoriteRecipes> RecipeList = recipes.ToList();
+            // create list of viewmodel objects to populate
+            List<FavoriteRecipeViewModel> OutputList = new List<FavoriteRecipeViewModel>();
+            foreach (var item in RecipeList)
+            {
+                FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
+                // find user favorite rating and category
+                var ur = _db.UserFavoriteRecipes.Find(FindUser(), item.Id);
+                if (!string.IsNullOrWhiteSpace(ur.Category))
+                {
+                    vm.Category = ur.Category;
+                }
+                vm.Rating = ur.Rating;
+                vm.Title = item.Title;
+                vm.RecipeID = ur.RecipeId;
+                vm.RecipeUrl = item.RecipeUrl;
+                vm.Ingredients = item.Ingredients;
+                vm.Thumbnail = item.Thumbnail;
+                OutputList.Add(vm);
+            }
+
+            switch (sortOrder)
+            {
+                case "Category":
+                    OutputList = OutputList.OrderBy(x => x.Category).ToList();
+                    break;
+                case "Category_desc":
+                    OutputList = OutputList.OrderByDescending(x => x.Category).ToList();
+                    break;
+                case "Rating":
+                    OutputList = OutputList.OrderBy(x => x.Rating).ToList();
+                    break;
+                case "Rating_desc":
+                    OutputList = OutputList.OrderByDescending(x => x.Rating).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            return View(OutputList);
+        }
+
+        public async Task<IActionResult> EditFavorite(int id)
+        {
+            FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
+            FavoriteRecipes fr = _db.FavoriteRecipes.Find(id);
+            vm.Title = fr.Title;
+            vm.Ingredients = fr.Ingredients;
+            vm.Thumbnail = fr.Thumbnail;
+            vm.RecipeUrl = fr.RecipeUrl;
+            // find user favorite rating and category
+            var ur = _db.UserFavoriteRecipes.Find(FindUser(), fr.Id);
+            vm.Category = ur.Category;
+            vm.Rating = ur.Rating;
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditFavorite(FavoriteRecipes fr, string Category, byte Rating)
+        {
+            // create primary key from values
+            string currentUserID = FindUser();
+            int currentRecipeID = fr.Id;
+            var ur = _db.UserFavoriteRecipes.Find(currentUserID, currentRecipeID);
+            // adding values to selected record
+            ur.Category = Category;
+            ur.Rating = Rating;
+            // necessary due to values being stored in main recipe table visible to all users
+            fr.Category = "";
+            fr.Rating = null;
+
+            _db.UserFavoriteRecipes.Update(ur);
+            _db.FavoriteRecipes.Update(fr);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("ShowAllFavorites");
         }
         [HttpGet]
         public async Task<IActionResult> GetRecipe(Result r)
@@ -36,20 +113,38 @@ namespace LetsEat.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddToFavorites(string title, string href, string ingredients, string thumbnail)
+        public async Task<IActionResult> AddToFavorites(string title, string recipeUrl, string ingredients, string thumbnail)
         {
             FavoriteRecipes r = new FavoriteRecipes();
             r.Title = title;
-            r.RecipeUrl = href;
+            r.RecipeUrl = recipeUrl;
             r.Ingredients = ingredients;
             r.Thumbnail = thumbnail;
-            if (ModelState.IsValid)
+
+            // retrieve current ID for favorite recipe if it exists
+            int favoriteID = (from RecipeURL in _db.FavoriteRecipes
+                             where RecipeURL.RecipeUrl.Equals(recipeUrl)
+                             select RecipeURL.Id).FirstOrDefault();
+
+            // adds currently selected recipe to FavoriteRecipes and newly added RecipeID and UserID to UserFavoriteRecipes
+            if (ModelState.IsValid && favoriteID == 0)
             {
                 await _db.FavoriteRecipes.AddAsync(r);
                 await _db.SaveChangesAsync();
 
                 var user = FindUser();
                 UserFavoriteRecipes f = new UserFavoriteRecipes(user, r.Id);
+
+                await _db.UserFavoriteRecipes.AddAsync(f);
+                await _db.SaveChangesAsync();
+
+                return RedirectToAction("ShowAllFavorites");
+            }
+            // if the currently selected recipe exists in database it will only add that recipeID and current UserID to UserFavoriteRecipes table
+            if (favoriteID != 0)
+            {
+                var user = FindUser();
+                UserFavoriteRecipes f = new UserFavoriteRecipes(user, favoriteID);
 
                 await _db.UserFavoriteRecipes.AddAsync(f);
                 await _db.SaveChangesAsync();

@@ -1,33 +1,22 @@
-﻿@model List<FavoriteRecipes>
+﻿@model List<FavoriteRecipeViewModel>
 
 <table class="table table-bordered table-striped table-dark table-hover">
     <tr>
         <th>Name</th>
         <th>Link to Recipe</th>
-        <th>Category</th>
-        <th>Rating</th>
+        <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["CategorySortParm"]">@Html.DisplayNameFor(model => model[0].Category)</a></th>
+        <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["RatingSortParm"]">@Html.DisplayNameFor(model => model[0].Rating)</a></th>
     </tr>
-
-    @foreach (FavoriteRecipes r in Model)
+    
+    @foreach (FavoriteRecipeViewModel r in Model)
     {
         <tr>
             <td>@r.Title</td>
             <td>@r.RecipeUrl</td>
             <td>@r.Category</td>
+            <td>@r.Rating</td>
             <td>
-                <form id="form1" runat="server">
-                    <p>Select a City of Your Choice</p>
-                    <div>
-                        <asp:DropDownList ID="DropDownList1" runat="server">
-                            <asp:ListItem Value="">Please Select</asp:ListItem>
-                            <asp:ListItem>New Delhi </asp:ListItem>
-                            <asp:ListItem>Greater Noida</asp:ListItem>
-                            <asp:ListItem>NewYork</asp:ListItem>
-                            <asp:ListItem>Paris</asp:ListItem>
-                            <asp:ListItem>London</asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
-                </form>
+                <a asp-controller="LetsEat" asp-action="EditFavorite" asp-route-id="@r.RecipeID">Edit</a>
             </td>
         </tr>
     }
