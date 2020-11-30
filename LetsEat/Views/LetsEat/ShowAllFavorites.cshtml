@@ -1,0 +1,29 @@
+﻿@model List<FavoriteRecipes>
+
+<div class="jumbotron">
+    <h1 class="body">Your Favorite Recipes</h1>
+</div>
+<table class="table table-bordered table-striped table-dark table-hover">
+    <tr>
+        <th>Recipe Link</th>
+        <th>Name</th>
+        <th>Ingredients</th>
+        <th>Rating</th>
+        <th>Category</th>
+        <th>Update</th>
+        <th>Remove Favorite</th>
+    </tr>
+
+    @foreach (FavoriteRecipes r in Model)
+    {
+        <tr>
+            <td><a href="@r.RecipeUrl"><img src="@r.Thumbnail" /></a></td>
+            <td>@r.Title</td>
+            <td>@r.Ingredients</td>
+            <td>@r.Rating </td>
+            <td>@r.Category</td>
+            <td><a asp-controller="LetsEat" asp-action="UpdateFavorite" asp-route-id="@r.Id" class="btn btn-success">Update Rating and Category</a></td>
+            <td><a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.Id" class="btn btn-danger">Remove</a></td>
+        </tr>
+    }
+</table>
