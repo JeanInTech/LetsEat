@@ -8,6 +8,12 @@ namespace LetsEat.Models
         public string UserId { get; set; }
         public int RecipeId { get; set; }
 
+        public UserFavoriteRecipes() { }
+        public UserFavoriteRecipes(string UserId, int RecipeId)
+        {
+            this.UserId = UserId;
+            this.RecipeId = RecipeId;
+        }
         public virtual FavoriteRecipes Recipe { get; set; }
         public virtual AspNetUsers User { get; set; }
     }
