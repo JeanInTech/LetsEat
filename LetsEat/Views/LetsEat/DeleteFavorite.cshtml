@@ -2,7 +2,14 @@
 <h2>Remove from Favorites</h2>
 
 <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="@Model.Thumbnail" alt="Card image cap">
+    @*@if (!string.IsNullOrEmpty(Model.Thumbnail))
+        {
+            <img class="card-img-top" src="@Model.Thumbnail" alt="Recipe image">
+        }
+        else
+        {
+            <img class="card-img-top" src="~/img/null_img.png" height="110" width="110" alt="Recipe Image">
+        }*@
     <div class="card-body">
         <h5 class="card-title">@Model.Title</h5>
         <p class="card-text"><u>Ingredients Needed:</u> @Model.Ingredients</p>

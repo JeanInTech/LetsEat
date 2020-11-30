@@ -1,8 +1,16 @@
 ﻿@model FavoriteRecipes
 
-<h3>How about...</h3>
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="@Model.Thumbnail" alt="Card image cap">
+<h3>How about. . .</h3>
+<div class="card align-content-center" style="width: 18rem;">
+
+    @*@if (!string.IsNullOrEmpty(Model.Thumbnail))
+        {
+            <img class="card-img-top" src="@Model.Thumbnail" alt="Recipe image">
+        }
+        else
+        {
+            <img class="card-img-top" src="~/img/null_img.png" height="110" width="110" alt="Recipe Image">
+        }*@
     <div class="card-body">
         <h5 class="card-title">@Model.Title</h5>
         <p class="card-text"><u>Ingredients Needed:</u> @Model.Ingredients</p>
@@ -14,6 +22,6 @@
     <div class="card-body">
         <a href="@Model.RecipeUrl" class="card-link">Recipe Details</a>
     </div>
-
-    <a asp-controller="LetsEat" asp-action="RandomFavorite">Not feeling it.</a>
 </div>
+<br />
+<button class="btn-dark" type="submit" onclick="window.location.reload()">Not in the mood</button>

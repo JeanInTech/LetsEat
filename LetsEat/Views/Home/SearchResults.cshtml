@@ -7,34 +7,34 @@
         <th>Thumbnail</th>
         <th>Recipe Name</th>
         <th>Ingredients</th>
-        <th>Link</th> 
+        <th>Link</th>
         <th>Add To Favorites</th>
     </tr>
     @foreach (Result r in Model)
-    { 
-<tr>
-    @if (!string.IsNullOrEmpty(r.thumbnail))
     {
-        <td><img src="@r.thumbnail" /></td>
+        <tr>
+            @if (!string.IsNullOrEmpty(r.thumbnail))
+            {
+                <td><img src="@r.thumbnail" /></td>
+            }
+            else
+            {
+                <td><img src="../img/null_img.png" height="110" width="110" /></td>
+            }
+            <td>@r.title</td>
+            <td>@r.ingredients</td>
+            <td><a href="@r.href" class="btn btn-success">View Recipe</a></td>
+            <td>
+                <form asp-controller="LetsEat" asp-action="AddToFavorites" method="post">
+                    <input type="hidden" name="title" value="@r.title" />
+                    <input type="hidden" name="href" value="@r.href" />
+                    <input type="hidden" name="ingredients" value="@r.ingredients" />
+                    <input type="hidden" name="thumbnail" value="@r.thumbnail" />
+                    <input type="submit" value="Add to Favorites" />
+                </form>
+            </td>
+        </tr>
     }
-    else
-    {
-        <td><img src="../img/null_img.png" height="110" width="110" /></td>
-    }
-    <td>@r.title</td>
-    <td>@r.ingredients</td>
-    <td><a href="@r.href" class="btn btn-success">View Recipe</a></td>
-    <td>
-         <form asp-controller="LetsEat" asp-action="AddToFavorites" method="post">
-               <input type="hidden" name="title" value="@r.title" />
-               <input type="hidden" name="href" value="@r.href" />
-                <input type="hidden" name="ingredients" value="@r.ingredients" />
-                <input type="hidden" name="thumbnail" value="@r.thumbnail" />
-                <input type="submit" value="Add to Favorites" />
-         </form>
-     </td>
-</tr>
- 
 </table>
 @{
     int pageNumber = (int)TempData.Peek("Page");
@@ -45,8 +45,9 @@
     {
         int previousPage = pageNumber;
         previousPage--;
-    <div class="float-left btn-dark"><form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@previousPage><input class="float-left btn-dark" type="submit" value="Previous" /></form></div>
+        <div class="float-left btn-dark"><form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@previousPage><input class="float-left btn-dark" type="submit" value="Previous" /></form></div>
     }
 }
 <form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@nextPage><input class="float-right btn-dark" type="submit" value="More Recipes" /></form>
-<br /><br />
+<br />
+<br />
