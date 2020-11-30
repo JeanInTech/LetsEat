@@ -64,7 +64,7 @@ body {
     background-image: url("/img/background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: #590000;
+    background-color: #5cb85c;
 }
 .footer {
   position: absolute;
@@ -87,8 +87,5 @@ body {
     padding: 50px;
 }
 #ResultsDisplay h1,p{
-    color: white;
-}
-.navbar-brand{
     color: white;
 }

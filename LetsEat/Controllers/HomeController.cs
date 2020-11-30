@@ -34,7 +34,6 @@ namespace LetsEat.Controllers
             if (DishName == null)
             {
                 ro = await _dal.SeachByIngredientsAsync(Ingredients, Page);
-                
             }
             else if (Ingredients == null)
             {

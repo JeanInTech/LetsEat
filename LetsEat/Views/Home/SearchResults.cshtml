@@ -38,6 +38,7 @@
             previousPage--;
             <form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@previousPage><input class="btn-info" type="submit" value="Back" /></form>
         }
+        <form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@nextPage><input class="btn-info" type="submit" value="More Recipes" /></form>
     }
-    <form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@nextPage><input class="btn-info" type="submit" value="More Recipes" /></form>
+
 </div>
