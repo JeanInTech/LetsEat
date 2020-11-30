@@ -1,0 +1,37 @@
+﻿@model Result[]
+
+<h1>@TempData.Peek("QueryDescription")</h1>
+<p>Page @TempData.Peek("Page")</p>
+<table class="table table-striped">
+    <tr>
+        <th>Thumbnail</th>
+        <th>Name</th>
+        <th>Ingredients</th>
+        <th>Link</th>
+    </tr>
+    @foreach (Result r in Model)
+    { 
+        <tr>
+            @if (r.thumbnail != null)
+            {
+                <td><img src="@r.thumbnail" /></td>
+            }
+            <td>@r.title</td>
+            <td>@r.ingredients</td>
+            <td><a href="@r.href">View Recipe</a></td>
+        </tr>
+    }
+</table>
+@{ 
+    int pageNumber = (int)TempData.Peek("Page");
+    int nextPage = pageNumber;
+    nextPage++;
+
+    if (pageNumber > 1)
+    {
+        int previousPage = pageNumber;
+        previousPage--;
+        <form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@previousPage><input class="btn-info" type="submit" value="Back" /></form>
+    }
+}
+<form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@nextPage><input class="btn-info" type="submit" value="More Recipes" /></form>
