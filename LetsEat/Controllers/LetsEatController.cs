@@ -20,9 +20,9 @@ namespace LetsEat.Controllers
         public IActionResult ShowAllFavorites()
         {
             var user = FindUser();
-            var recipes = from all in _db.FavoriteRecipes
-                          where _db.UserFavoriteRecipes.Any(x => x.UserId == user)
-                          select all;
+            var recipes = from r in _db.FavoriteRecipes
+                          where _db.UserFavoriteRecipes.Any(x => x.UserId == user && x.RecipeId == r.Id)
+                          select r;
             List<FavoriteRecipes> RecipeList = recipes.ToList();
 
             return View(RecipeList);
