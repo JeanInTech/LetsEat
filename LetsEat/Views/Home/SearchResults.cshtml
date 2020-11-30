@@ -6,11 +6,11 @@
 </div>
 <table class="table table-striped table-dark">
     <tr>
-        <th>Thumbnail</th>
-        <th>Recipe Name</th>
-        <th>Ingredients</th>
-        <th>Link</th>
-        <th>Add To Favorites</th>
+        <th style="text-align:center">Image</th>
+        <th style="text-align:center">Recipe Name</th>
+        <th style="text-align:center">Ingredients</th>
+        <th style="text-align:center">Link</th>
+        <th style="text-align:center">Favorites</th>
     </tr>
     @foreach (Result r in Model)
     {
@@ -47,9 +47,9 @@
     {
         int previousPage = pageNumber;
         previousPage--;
-<form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@previousPage><input class="float-left btn-dark btn-sm" type="submit" value="Previous" /></form>
+<form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@previousPage><input class="float-left btn btn-dark btn-sm" type="submit" value="Previous" /></form>
     }
 }
-<form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@nextPage><input class="float-right btn-dark btn-sm" type="submit" value="More Recipes" /></form>
+<form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@nextPage><input class="float-right btn btn-dark btn-sm" type="submit" value="More Recipes" /></form>
 <br />
 <br />

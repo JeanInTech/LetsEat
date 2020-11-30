@@ -5,25 +5,25 @@
 </div>
 <table class="table table-bordered table-striped table-dark table-hover">
     <tr>
-        <th>Recipe Link</th>
-        <th>Name</th>
-        <th>Ingredients</th>
-        <th>Rating</th>
-        <th>Category</th>
-        <th>Update</th>
-        <th>Remove Favorite</th>
+        <th style="text-align:center">Link</th>
+        <th style="text-align:center">Recipe Name</th>
+        <th style="text-align:center">Ingredients</th>
+        <th style="text-align:center">Rating</th>
+        <th style="text-align:center">Category</th>
+        <th style="text-align:center">Update</th>
+        <th style="text-align:center">Remove</th>
     </tr>
 
     @foreach (FavoriteRecipes r in Model)
     {
         <tr>
             <td><a href="@r.RecipeUrl"><img src="@r.Thumbnail" /></a></td>
-            <td>@r.Title</td>
+            <td style="text-align:center">@r.Title</td>
             <td>@r.Ingredients</td>
-            <td>@r.Rating </td>
-            <td>@r.Category</td>
-            <td><a asp-controller="LetsEat" asp-action="UpdateFavorite" asp-route-id="@r.Id" class="btn btn-success">Update Rating and Category</a></td>
-            <td><a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.Id" class="btn btn-danger">Remove</a></td>
+            <td style="text-align:center">@r.Rating </td>
+            <td style="text-align:center">@r.Category</td>
+            <td><a asp-controller="LetsEat" asp-action="UpdateFavorite" asp-route-id="@r.Id" class="btn btn-success align-content-center">Update Rating and Category</a></td>
+            <td><a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.Id" class="btn btn-danger align">Remove Favorite</a></td>
         </tr>
     }
 </table>
