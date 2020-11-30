@@ -91,10 +91,13 @@ namespace LetsEat.Controllers
             var recipes = from r in _db.FavoriteRecipes
                           where _db.UserFavoriteRecipes.Any(x => x.UserId == user && x.RecipeId == r.Id)
                           select r;
-
             var randomRecipe = recipes.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-
-            return View(randomRecipe);
+            if (randomRecipe != null)
+            {
+                
+                return View(randomRecipe);
+            }
+            return View("ShowAllFavorites");
         }
         public string FindUser()
         {

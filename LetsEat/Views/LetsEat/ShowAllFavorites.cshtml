@@ -10,24 +10,31 @@
         <th>Update Rating and Category</th>
         <th>Remove Favorite</th>
     </tr>
-
-    @foreach (FavoriteRecipes r in Model)
+    @if (Model != null)
     {
-        <tr>
-            @if (!string.IsNullOrEmpty(r.Thumbnail))
-            {
-                <td><a href="@r.RecipeUrl"><img src="@r.Thumbnail" /></a></td>
-            }
-            else
-            {
-                <td><a href="@r.RecipeUrl"><img src="~/img/null_img.png" height="110" width="110" /></a></td>
-            }
-            <td>@r.Title</td>
-            <td>@r.Ingredients</td>
-            <td>@r.Rating </td>
-            <td>@r.Category</td>
-            <td><a asp-controller="LetsEat" asp-action="UpdateFavorite" asp-route-id="@r.Id">Update Rating and Category</a></td>
-            <td><a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.Id">Remove</a></td>
-        </tr>
+        @foreach (FavoriteRecipes r in Model)
+        {
+            <tr>
+                @if (!string.IsNullOrEmpty(r.Thumbnail))
+                {
+                    <td><a href="@r.RecipeUrl"><img src="@r.Thumbnail" /></a></td>
+                }
+                else
+                {
+                    <td><a href="@r.RecipeUrl"><img src="~/img/null_img.png" height="110" width="110" /></a></td>
+                }
+                <td>@r.Title</td>
+                <td>@r.Ingredients</td>
+                <td>@r.Rating </td>
+                <td>@r.Category</td>
+                <td><a asp-controller="LetsEat" asp-action="UpdateFavorite" asp-route-id="@r.Id">Update Rating and Category</a></td>
+                <td><a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.Id">Remove</a></td>
+            </tr>
+        }
     }
+    else
+    {
+        <p>Looks empty. Try finding new favorites through our <a asp-controller="Home" asp-action="Index">search tool!</a></p>
+    }
+
 </table>
