@@ -4,6 +4,8 @@
     <tr>
         <th>Name</th>
         <th>Link to Recipe</th>
+        <th>Category</th>
+        <th>Rating</th>
     </tr>
 
     @foreach (FavoriteRecipes r in Model)
@@ -11,6 +13,22 @@
         <tr>
             <td>@r.Title</td>
             <td>@r.RecipeUrl</td>
+            <td>@r.Category</td>
+            <td>
+                <form id="form1" runat="server">
+                    <p>Select a City of Your Choice</p>
+                    <div>
+                        <asp:DropDownList ID="DropDownList1" runat="server">
+                            <asp:ListItem Value="">Please Select</asp:ListItem>
+                            <asp:ListItem>New Delhi </asp:ListItem>
+                            <asp:ListItem>Greater Noida</asp:ListItem>
+                            <asp:ListItem>NewYork</asp:ListItem>
+                            <asp:ListItem>Paris</asp:ListItem>
+                            <asp:ListItem>London</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </form>
+            </td>
         </tr>
     }
 </table>

@@ -32,6 +32,9 @@ namespace LetsEat
             {
                 client.BaseAddress = new Uri("http://www.recipepuppy.com/api/");
             });
+            services.AddDbContext<LetsEatContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
