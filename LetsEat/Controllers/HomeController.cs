@@ -34,7 +34,7 @@ namespace LetsEat.Controllers
 
             if (DishName == null)
             {
-                ro = await _dal.SeachByIngredientsAsync(Ingredients, Page);
+                ro = await _dal.SearchByIngredientsAsync(Ingredients, Page);
                 
             }
             else if (Ingredients == null)
@@ -49,11 +49,6 @@ namespace LetsEat.Controllers
             Result[] results = ro.results;
 
             return View(results);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
