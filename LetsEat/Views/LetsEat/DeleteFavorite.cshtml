@@ -2,14 +2,6 @@
 <h2>Remove from Favorites</h2>
 
 <div class="card" style="width: 18rem;">
-    @*@if (!string.IsNullOrEmpty(Model.Thumbnail))
-        {
-            <img class="card-img-top" src="@Model.Thumbnail" alt="Recipe image">
-        }
-        else
-        {
-            <img class="card-img-top" src="~/img/null_img.png" height="110" width="110" alt="Recipe Image">
-        }*@
     <div class="card-body">
         <h5 class="card-title">@Model.Title</h5>
         <p class="card-text"><u>Ingredients Needed:</u> @Model.Ingredients</p>
@@ -31,6 +23,6 @@
     <input type="hidden" name="Thumbnail" value="@Model.Thumbnail" />
     <input type="hidden" name="Rating" value="@Model.Rating" />
     <input type="hidden" name="Category" value="@Model.Category" />
-    <input class="btn-light" type="submit" value="Yes" />
+    <input class="btn-dark" type="submit" value="Yes" />
     <input class="btn-dark"type="submit" value="No" asp-controller="LetsEat" asp-action="ShowAllFavorites" />
 </form>
