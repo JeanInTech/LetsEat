@@ -1,0 +1,18 @@
+﻿@model FavoriteRecipes
+
+<h3>How about. . .</h3>
+<div class="card align-content-center" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <p class="card-text"><u>Ingredients Needed:</u> @Model.Ingredients</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Rating: @Model.Rating/5</li>
+        <li class="list-group-item">Category: @Model.Category</li>
+    </ul>
+    <div class="card-body">
+        <a href="@Model.RecipeUrl" class="card-link">Recipe Details</a>
+    </div>
+</div>
+<br />
+<button class="btn-dark" type="submit" onclick="window.location.reload()">Not in the mood</button>

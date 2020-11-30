@@ -14,7 +14,14 @@
     @foreach (FavoriteRecipes r in Model)
     {
         <tr>
-            <td><a href="@r.RecipeUrl"><img src="@r.Thumbnail" /></a></td>
+            @if (!string.IsNullOrEmpty(r.Thumbnail))
+            {
+                <td><a href="@r.RecipeUrl"><img src="@r.Thumbnail" /></a></td>
+            }
+            else
+            {
+                <td><a href="@r.RecipeUrl"><img src="~/img/null_img.png" height="110" width="110" /></a></td>
+            }
             <td>@r.Title</td>
             <td>@r.Ingredients</td>
             <td>@r.Rating </td>
