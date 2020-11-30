@@ -1,3 +1,4 @@
+
 @model Result[]
 
 <div class="jumbotron">
@@ -15,6 +16,7 @@
     @foreach (Result r in Model)
     {
         <tr>
+
             @if (!string.IsNullOrEmpty(r.thumbnail))
             {
                 <td><img src="@r.thumbnail" /></td>
@@ -47,6 +49,7 @@
     {
         int previousPage = pageNumber;
         previousPage--;
+
 <form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@previousPage><input class="float-left btn btn-dark btn-sm" type="submit" value="Previous" /></form>
     }
 }

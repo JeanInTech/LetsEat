@@ -28,14 +28,19 @@ namespace LetsEat
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient<RecipeDAL>(client =>
+
+            services.AddHttpClient<RecipeDAL>(client => 
             {
                 client.BaseAddress = new Uri("http://www.recipepuppy.com/api/");
             });
-            services.AddDbContext<LetsEatContext>(options => options.UseSqlServer(Secret.ConnectionString));
+            services.AddDbContext<LetsEatContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
 
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddControllersWithViews();
