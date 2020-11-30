@@ -27,7 +27,6 @@ namespace LetsEat.Models
             this.Rating = Rating;
             this.Category = Category;
         }
-        
 
         public virtual ICollection<UserFavoriteRecipes> UserFavoriteRecipes { get; set; }
     }

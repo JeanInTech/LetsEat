@@ -12,11 +12,14 @@ namespace LetsEat.Controllers
     [Authorize]
     public class LetsEatController : Controller
     {
+
         private readonly LetsEatContext _db; 
+
         public LetsEatController(LetsEatContext db)
         {
             _db = db;
         }
+
         public IActionResult ShowAllFavorites(string sortOrder)
         {
             ViewData["CategorySortParm"] = sortOrder == "Category" ? "Category_desc" : "Category";
@@ -128,6 +131,7 @@ namespace LetsEat.Controllers
 
             // adds currently selected recipe to FavoriteRecipes and newly added RecipeID and UserID to UserFavoriteRecipes
             if (ModelState.IsValid && favoriteID == 0)
+
             {
                 await _db.FavoriteRecipes.AddAsync(r);
                 await _db.SaveChangesAsync();
@@ -140,6 +144,7 @@ namespace LetsEat.Controllers
 
                 return RedirectToAction("ShowAllFavorites");
             }
+
             // if the currently selected recipe exists in database it will only add that recipeID and current UserID to UserFavoriteRecipes table
             if (favoriteID != 0)
             {
@@ -152,6 +157,52 @@ namespace LetsEat.Controllers
                 return RedirectToAction("ShowAllFavorites");
             }
             return View("GetRecipe");
+        }
+
+        [HttpGet]
+        public IActionResult UpdateFavorite(int Id)
+        {
+            FavoriteRecipes r = _db.FavoriteRecipes.Find(Id);
+            return View(r);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateFavorite(FavoriteRecipes r)
+        {
+            if (ModelState.IsValid)
+            {
+                _db.FavoriteRecipes.Update(r);
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction("ShowAllFavorites");
+        }
+        [HttpGet]
+        public IActionResult DeleteFavorite(int Id)
+        {
+            FavoriteRecipes r = _db.FavoriteRecipes.Find(Id);
+
+            return View(r);
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteFavorite(FavoriteRecipes r)
+        {
+            var recipe = _db.UserFavoriteRecipes.Where(x => x.RecipeId == r.Id).First();
+            _db.UserFavoriteRecipes.Remove(recipe);
+
+            _db.FavoriteRecipes.Remove(r);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("ShowAllFavorites");
+        }
+        public IActionResult RandomFavorite()
+        {
+            var user = FindUser();
+            var recipes = from r in _db.FavoriteRecipes
+                          where _db.UserFavoriteRecipes.Any(x => x.UserId == user && x.RecipeId == r.Id)
+                          select r;
+
+            var randomRecipe = recipes.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+
+            return View(randomRecipe);
         }
 
         public string FindUser()

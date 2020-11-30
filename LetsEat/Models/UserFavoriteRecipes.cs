@@ -11,6 +11,7 @@ namespace LetsEat.Models
         public byte Rating { get; set; }
 
         public UserFavoriteRecipes() { }
+
         public UserFavoriteRecipes(string UserId, int RecipeId)
         {
             this.UserId = UserId;

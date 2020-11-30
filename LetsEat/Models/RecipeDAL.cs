@@ -38,7 +38,9 @@ namespace LetsEat.Models
             return ro;
         }
 
+
         public async Task<Rootobject> SeachByIngredientsAsync(string ingredients, int page)
+
         {
             var response = await _client.GetAsync($"?i={ ingredients }&p={ page }");
             string jsonData = await response.Content.ReadAsStringAsync();
@@ -49,3 +51,4 @@ namespace LetsEat.Models
         }
     }
 }
+

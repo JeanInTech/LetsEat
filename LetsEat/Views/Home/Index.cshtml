@@ -1,6 +1,11 @@
-﻿<form action="/Home/SearchResults">
-    <input type="text" name="Ingredients" placeholder="ingredient 1, ingredient 2..." /><br />
-    <input type="text" name="DishName" placeholder="Dish Name" /><br />
-    <input type="hidden" name="Page" value="1" />
-    <input type="submit" value="Search" />
-</form>
+
+<div id="indexContainer" class="container-fluid d-flex justify-content-center align-items-center h-100">
+    <form action="/Home/SearchResults" id="searchForm">
+        <div class="form-row h-100">
+            <input type="text" name="DishName" id="dishName" placeholder="Recipe Name" class="form-control-lg m-md-2" />
+            <input type="text" name="Ingredients" id="ingredients" placeholder="Ingredient 1, Ingredient 2..." class="form-control-lg m-md-2" />
+            <input type="hidden" name="Page" value="1" />
+            <input type="submit" value="Let's Eat!" class="btn-success btn" />
+        </div>
+    </form>
+</div>
