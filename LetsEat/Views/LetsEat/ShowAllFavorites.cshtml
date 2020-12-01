@@ -1,5 +1,11 @@
 ﻿@model List<FavoriteRecipeViewModel>
 
+@if (Model.Count == 0)
+{
+    <p>Looks like you don't have any favorites yet. Find some using our <a asp-controller="Home" asp-action="Index"><b>search tool</b></a>. Get cooking!</p>
+}
+else
+{
 <div>
     <h1 class="body">Your Favorite Recipes</h1>
 </div>
@@ -50,14 +56,10 @@
                 }
             </td>
             <td>
-                <a asp-controller="LetsEat" asp-action="EditFavorite" asp-route-id="@r.RecipeID" class="btn btn-success text-center">Edit Entry</a>
-                <a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.RecipeID" class="btn btn-danger text-center">Remove Favorite</a>
+                <a asp-controller="LetsEat" asp-action="EditFavorite" asp-route-id="@r.RecipeID" class="btn btn-success" style="display: block;">Edit Entry</a>
+                <a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.RecipeID" class="btn btn-danger" style="display: block;">Remove Favorite</a>
             </td>
         </tr>
     }
-    else
-    {
-        <p>Looks like you don't have any favorites. Find some using our <a asp-controller="Home" asp-action="Index">search tool</a>!</p>
-    }
-
 </table>
+}
