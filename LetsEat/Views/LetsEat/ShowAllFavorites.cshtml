@@ -7,13 +7,13 @@
 {
     <table class="table table-bordered table-striped table-dark table-hover">
         <tr>
-            <th class="align-content-center">Link / Image</th>
-            <th class="align-content-center">Name</th>
-            <th>Ingredients</th>
-            <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["CategorySortParm"]">@Html.DisplayNameFor(model => model[0].Category)</a></th>
-            <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["RatingSortParm"]">@Html.DisplayNameFor(model => model[0].Rating)</a></th>
-            <th>Edit</th>
-            <th>Remove</th>
+            <th class="text-center">Image / Link</th>
+            <th class="text-center">Name</th>
+            <th class="text-center">Ingredients</th>
+            <th class="text-center"><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["CategorySortParm"]">@Html.DisplayNameFor(model => model[0].Category)</a></th>
+            <th class="text-center"><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["RatingSortParm"]">@Html.DisplayNameFor(model => model[0].Rating)</a></th>
+            <th class="text-center">Edit</th>
+            <th class="text-center">Remove</th>
         </tr>
         @foreach (FavoriteRecipeViewModel r in Model)
         {
