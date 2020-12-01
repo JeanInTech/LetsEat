@@ -34,6 +34,33 @@ namespace LetsEat.Controllers
 
             if (DishName == null)
             {
+                ro = await _dal.SeachByIngredientsAsync(Ingredients, Page);
+                
+            }
+            else if (Ingredients == null)
+            {
+                ro = await _dal.FindRecipesAsync(DishName, Page);
+            }
+            else
+            {
+                ro = await _dal.FindRecipesAsync(DishName, Ingredients, Page);
+            }
+
+            Result[] results = ro.results;
+
+            return View(results);
+        }
+
+        public IActionResult Privacy()
+        {
+            TempData["DishName"] = DishName;
+            TempData["Ingredients"] = Ingredients;
+            TempData["QueryDescription"] = BuildQueryDescription(DishName, Ingredients);
+            TempData["Page"] = Page;
+            Rootobject ro;
+
+            if (DishName == null)
+            {
                 ro = await _dal.SearchByIngredientsAsync(Ingredients, Page);
             }
             else if (Ingredients == null)

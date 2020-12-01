@@ -18,6 +18,16 @@ namespace LetsEat.Models
         public byte? Rating { get; set; }
         public string Category { get; set; }
 
+        public FavoriteRecipes(string RecipeUrl, string Title, string Ingredients, string Thumbnail, byte Rating, string Category) 
+        {
+            this.RecipeUrl = RecipeUrl;
+            this.Title = Title;
+            this.Ingredients = Ingredients;
+            this.Thumbnail = Thumbnail;
+            this.Rating = Rating;
+            this.Category = Category;
+        }
+
         public virtual ICollection<UserFavoriteRecipes> UserFavoriteRecipes { get; set; }
     }
 }
