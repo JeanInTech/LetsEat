@@ -63,23 +63,23 @@ namespace LetsEat.Controllers
             //add ingredients modifiers
             if (Ingredients != null && ExcludedIngredients == null)
             {
-                query += $"i={Ingredients}";
+                query += $"i={Ingredients}&";
             }
             else if (ExcludedIngredients != null && Ingredients == null)
             {
-                query += $"i={BuildExcludingString(ExcludedIngredients)}";
+                query += $"i={BuildExcludingString(ExcludedIngredients)}&";
             }
             else if (ExcludedIngredients != null && Ingredients != null)
             {
-                query += $"i={Ingredients},{BuildExcludingString(ExcludedIngredients)}";
+                query += $"i={Ingredients},{BuildExcludingString(ExcludedIngredients)}&";
             }
 
             if (OnlyImages == true)
             {
-                query += $"&oi=1";
+                query += $"oi=1&";
             }
 
-            query += $"&p={Page}";
+            query += $"p={Page}";
 
             return query;
         }
