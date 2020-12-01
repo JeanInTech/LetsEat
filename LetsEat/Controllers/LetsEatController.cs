@@ -38,6 +38,7 @@ namespace LetsEat.Controllers
                 FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
                 // find user favorite rating and category
                 UserFavoriteRecipes ur = new UserFavoriteRecipes();
+
                 ur = _db.UserFavoriteRecipes.Find(FindUser(), item.Id);
                 if (!string.IsNullOrWhiteSpace(ur.Category))
                 {

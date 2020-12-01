@@ -26,7 +26,7 @@
             }
             <td>@r.title</td>
             <td style=text-transform: capitalize>@r.ingredients</td>
-            <td><a href="@r.href" class="btn btn-success">View Recipe</a></td>
+            <td><a href="@r.href" target="_blank" class="btn btn-success">View Recipe</a></td>
             <td>
                 <form asp-controller="LetsEat" asp-action="AddToFavorites" method="post">
                     <input type="hidden" name="title" value="@r.title" />
