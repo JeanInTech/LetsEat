@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,9 +9,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-custom border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-custom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Let's Eat</a>
+                <a class="navbar-brand text-light" asp-area="" asp-controller="Home" asp-action="Index">Let's Eat</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,16 +19,14 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Search Recipes</a>
+                        <li>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Search Recipes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="LetsEat" asp-action="ShowAllFavorites">Favorite Recipes</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="LetsEat" asp-action="ShowAllFavorites">Favorite Recipes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="LetsEat" asp-action="RandomFavorite">What Should I Eat?</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="LetsEat" asp-action="RandomFavorite">What Should I Eat?</a>
                         </li>
                     </ul>
                 </div>
@@ -41,7 +39,7 @@
         </main>
     </div>
 
-    <footer class="footer text-light bg-success">
+    <footer class="footer text-light bg-custom">
         <div class="container">
             &copy; 2020 - Let's Eat
         </div>
