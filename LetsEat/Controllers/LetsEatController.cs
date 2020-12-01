@@ -70,10 +70,8 @@ namespace LetsEat.Controllers
                 default:
                     break;
             }
-
             return View(OutputList);
         }
-
         public async Task<IActionResult> EditFavorite(int id)
         {
             FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
@@ -88,7 +86,6 @@ namespace LetsEat.Controllers
             vm.Rating = ur.Rating;
             return View(vm);
         }
-
         [HttpPost]
         public async Task<IActionResult> EditFavorite(FavoriteRecipes fr, string Category, byte Rating)
         {
@@ -116,7 +113,6 @@ namespace LetsEat.Controllers
 
             return View(r);
         }
-
         [HttpPost]
         public async Task<IActionResult> AddToFavorites(string title, string recipeUrl, string ingredients, string thumbnail)
         {
@@ -180,9 +176,19 @@ namespace LetsEat.Controllers
         [HttpGet]
         public IActionResult DeleteFavorite(int Id)
         {
+            string user = FindUser();
             FavoriteRecipes r = _db.FavoriteRecipes.Find(Id);
+            // create primary key from values
+            int currentRecipeID = r.Id;
+            var ur = _db.UserFavoriteRecipes.Find(user, currentRecipeID);
+            FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
 
-            return View(r);
+            vm.Title = r.Title;
+            vm.Ingredients = r.Ingredients;
+            vm.RecipeUrl = r.RecipeUrl;
+            vm.Category = ur.Category;
+            vm.Rating = ur.Rating;
+            return View(vm);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteFavorite(FavoriteRecipes r)
@@ -225,10 +231,9 @@ namespace LetsEat.Controllers
                 vm.Category = ur.Category;
                 vm.Rating = ur.Rating;
                 return View(vm);
-            }            
+            } 
             return View("ShowAllFavorites");
         }
-
         public string FindUser()
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;

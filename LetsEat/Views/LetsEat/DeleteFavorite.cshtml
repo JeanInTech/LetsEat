@@ -1,4 +1,4 @@
-﻿@model FavoriteRecipes
+﻿@model FavoriteRecipeViewModel
 <h2>Remove from Favorites</h2>
 
 <div class="card" style="width: 18rem;">
@@ -24,5 +24,5 @@
     <input type="hidden" name="Rating" value="@Model.Rating" />
     <input type="hidden" name="Category" value="@Model.Category" />
     <input class="btn-dark" type="submit" value="Yes" />
-    <input class="btn-dark"type="submit" value="No" asp-controller="LetsEat" asp-action="ShowAllFavorites" />
+    <input class="btn-dark" type="submit" value="No" asp-controller="LetsEat" asp-action="ShowAllFavorites" />
 </form>
