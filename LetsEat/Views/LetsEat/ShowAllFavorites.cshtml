@@ -11,12 +11,13 @@ else
 </div>
 <table class="table table-bordered table-striped table-dark table-hover">
     <tr>
-        <th></th>
+        <th>Recipe Link</th>
         <th>Name</th>
         <th>Ingredients</th>
         <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["CategorySortParm"]">@Html.DisplayNameFor(model => model[0].Category)</a></th>
         <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["RatingSortParm"]">@Html.DisplayNameFor(model => model[0].Rating)</a></th>
-
+        <th></th>
+        <th></th>
     </tr>
     @if (Model != null)
     {
