@@ -70,10 +70,8 @@ namespace LetsEat.Controllers
                 default:
                     break;
             }
-
             return View(OutputList);
         }
-
         public async Task<IActionResult> EditFavorite(int id)
         {
             FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
@@ -88,7 +86,6 @@ namespace LetsEat.Controllers
             vm.Rating = ur.Rating;
             return View(vm);
         }
-
         [HttpPost]
         public async Task<IActionResult> EditFavorite(FavoriteRecipes fr, string Category, byte Rating)
         {
@@ -116,7 +113,6 @@ namespace LetsEat.Controllers
 
             return View(r);
         }
-
         [HttpPost]
         public async Task<IActionResult> AddToFavorites(string title, string recipeUrl, string ingredients, string thumbnail)
         {
@@ -131,8 +127,14 @@ namespace LetsEat.Controllers
                              where RecipeURL.RecipeUrl.Equals(recipeUrl)
                              select RecipeURL.Id).FirstOrDefault();
 
+            // retrieve current ID for favorite recipe if it exists
+            int existsInUserFavorites = 0;
+            existsInUserFavorites = (from Recipe in _db.UserFavoriteRecipes
+                             where Recipe.RecipeId.Equals(favoriteID)
+                             select Recipe.RecipeId).FirstOrDefault();
+
             // adds currently selected recipe to FavoriteRecipes and newly added RecipeID and UserID to UserFavoriteRecipes
-            if (ModelState.IsValid && favoriteID == 0)
+            if (ModelState.IsValid && favoriteID == 0 && existsInUserFavorites == 0)
 
             {
                 await _db.FavoriteRecipes.AddAsync(r);
@@ -148,7 +150,7 @@ namespace LetsEat.Controllers
             }
 
             // if the currently selected recipe exists in database it will only add that recipeID and current UserID to UserFavoriteRecipes table
-            if (favoriteID != 0)
+            if (favoriteID != 0 && existsInUserFavorites == 0)
             {
                 var user = FindUser();
                 UserFavoriteRecipes f = new UserFavoriteRecipes(user, favoriteID);
@@ -158,7 +160,7 @@ namespace LetsEat.Controllers
 
                 return RedirectToAction("ShowAllFavorites");
             }
-            return View("GetRecipe");
+            return RedirectToAction("ShowAllFavorites");
         }
 
         [HttpGet]
@@ -180,9 +182,19 @@ namespace LetsEat.Controllers
         [HttpGet]
         public IActionResult DeleteFavorite(int Id)
         {
+            string user = FindUser();
             FavoriteRecipes r = _db.FavoriteRecipes.Find(Id);
+            // create primary key from values
+            int currentRecipeID = r.Id;
+            var ur = _db.UserFavoriteRecipes.Find(user, currentRecipeID);
+            FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
 
-            return View(r);
+            vm.Title = r.Title;
+            vm.Ingredients = r.Ingredients;
+            vm.RecipeUrl = r.RecipeUrl;
+            vm.Category = ur.Category;
+            vm.Rating = ur.Rating;
+            return View(vm);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteFavorite(FavoriteRecipes r)
@@ -225,10 +237,9 @@ namespace LetsEat.Controllers
                 vm.Category = ur.Category;
                 vm.Rating = ur.Rating;
                 return View(vm);
-            }            
+            } 
             return View("ShowAllFavorites");
         }
-
         public string FindUser()
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
