@@ -127,8 +127,14 @@ namespace LetsEat.Controllers
                              where RecipeURL.RecipeUrl.Equals(recipeUrl)
                              select RecipeURL.Id).FirstOrDefault();
 
+            // retrieve current ID for favorite recipe if it exists
+            int existsInUserFavorites = 0;
+            existsInUserFavorites = (from Recipe in _db.UserFavoriteRecipes
+                             where Recipe.RecipeId.Equals(favoriteID)
+                             select Recipe.RecipeId).FirstOrDefault();
+
             // adds currently selected recipe to FavoriteRecipes and newly added RecipeID and UserID to UserFavoriteRecipes
-            if (ModelState.IsValid && favoriteID == 0)
+            if (ModelState.IsValid && favoriteID == 0 && existsInUserFavorites == 0)
 
             {
                 await _db.FavoriteRecipes.AddAsync(r);
@@ -144,7 +150,7 @@ namespace LetsEat.Controllers
             }
 
             // if the currently selected recipe exists in database it will only add that recipeID and current UserID to UserFavoriteRecipes table
-            if (favoriteID != 0)
+            if (favoriteID != 0 && existsInUserFavorites == 0)
             {
                 var user = FindUser();
                 UserFavoriteRecipes f = new UserFavoriteRecipes(user, favoriteID);
@@ -154,7 +160,7 @@ namespace LetsEat.Controllers
 
                 return RedirectToAction("ShowAllFavorites");
             }
-            return View("GetRecipe");
+            return RedirectToAction("ShowAllFavorites");
         }
 
         [HttpGet]
