@@ -198,9 +198,7 @@ namespace LetsEat.Controllers
             {
                 var recipeObject = _db.FavoriteRecipes.Where(x => x.Id == r.Id).First();
                 _db.FavoriteRecipes.Remove(recipeObject);
-            }
-            //if(_db.UserFavoriteRecipes.Where(a => recipeID.Contains(a.RecipeId.ToString())).Select(a => a.RecipeId).)
-            
+            }            
             
             await _db.SaveChangesAsync();
 
@@ -213,11 +211,21 @@ namespace LetsEat.Controllers
                           where _db.UserFavoriteRecipes.Any(x => x.UserId == user && x.RecipeId == r.Id)
                           select r;
             var randomRecipe = recipes.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+            
             if (randomRecipe != null)
-            {
-                
-                return View(randomRecipe);
-            }
+            {     
+                // create primary key from values
+                int currentRecipeID = randomRecipe.Id;
+                var ur = _db.UserFavoriteRecipes.Find(user, currentRecipeID);
+                FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
+    
+                vm.Title = randomRecipe.Title;
+                vm.Ingredients = randomRecipe.Ingredients;
+                vm.RecipeUrl = randomRecipe.RecipeUrl;
+                vm.Category = ur.Category;
+                vm.Rating = ur.Rating;
+                return View(vm);
+            }            
             return View("ShowAllFavorites");
         }
 

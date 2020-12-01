@@ -1,4 +1,4 @@
-﻿@model FavoriteRecipes
+﻿@model FavoriteRecipeViewModel
 
 <h3>How about. . .</h3>
 <div class="card align-content-center" style="width: 18rem;">
@@ -13,7 +13,7 @@
                 string category = "";
             }
             Rating:
-            @if (Model.Rating.HasValue)
+            @if (Model.Rating != 0)
             {
                 rating = @Model.Rating.ToString() + "/5";
             }
