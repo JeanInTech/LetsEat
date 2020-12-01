@@ -215,7 +215,6 @@ namespace LetsEat.Controllers
             var randomRecipe = recipes.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
             if (randomRecipe != null)
             {
-                
                 return View(randomRecipe);
             }
             return View("ShowAllFavorites");

@@ -10,6 +10,7 @@
         <th>Ingredients</th>
         <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["CategorySortParm"]">@Html.DisplayNameFor(model => model[0].Category)</a></th>
         <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["RatingSortParm"]">@Html.DisplayNameFor(model => model[0].Rating)</a></th>
+
     </tr>
     @if (Model != null)
     {
@@ -45,6 +46,8 @@
                 </td>
                 <td>
                     <a asp-controller="LetsEat" asp-action="EditFavorite" asp-route-id="@r.RecipeID" class="btn btn-danger align">Edit</a>
+                </td>
+                <td>
                     <a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.RecipeID" class="btn btn-danger align">Remove Favorite</a>
                 </td>
             </tr>
@@ -54,5 +57,4 @@
     {
         <p>Looks like you don't have any favorites. Find some using our <a asp-controller="Home" asp-action="Index">search tool</a>!</p>
     }
-
 </table>
