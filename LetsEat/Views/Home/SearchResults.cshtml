@@ -26,14 +26,8 @@
             }
             <td>@r.title</td>
             <td style="text-transform: capitalize">@r.ingredients</td>
-<<<<<<< HEAD
-            <td><a href="@r.href" target="_blank" class="btn btn-success">View Recipe</a></td>
-
-            <td>
-=======
-            <td><a href="@r.href" class="btn btn-success" style="height: 100%; width: 100%;">View Recipe</a></td>
+            <td><a href="@r.href" target="_blank" class="btn btn-success" style="height: 100%; width: 100%;">View Recipe</a></td>
             <td align="center">
->>>>>>> 61f6cec77e7ddf5d39e051bbfb544da6b6981e31
                 <form asp-controller="LetsEat" asp-action="AddToFavorites" method="post">
                     <input type="hidden" name="title" value="@r.title" />
                     <input type="hidden" name="recipeUrl" value="@r.href" />
