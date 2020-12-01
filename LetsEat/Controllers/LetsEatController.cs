@@ -176,9 +176,19 @@ namespace LetsEat.Controllers
         [HttpGet]
         public IActionResult DeleteFavorite(int Id)
         {
+            string user = FindUser();
             FavoriteRecipes r = _db.FavoriteRecipes.Find(Id);
+            // create primary key from values
+            int currentRecipeID = r.Id;
+            var ur = _db.UserFavoriteRecipes.Find(user, currentRecipeID);
+            FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
 
-            return View(r);
+            vm.Title = r.Title;
+            vm.Ingredients = r.Ingredients;
+            vm.RecipeUrl = r.RecipeUrl;
+            vm.Category = ur.Category;
+            vm.Rating = ur.Rating;
+            return View(vm);
         }
         [HttpPost]
         public async Task<IActionResult> DeleteFavorite(FavoriteRecipes r)
