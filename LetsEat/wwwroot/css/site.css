@@ -110,3 +110,7 @@ body {
 .bg-custom{
     background-color: indianred;
 }
+
+.card-text {
+    text-transform: capitalize
+}

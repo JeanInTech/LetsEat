@@ -37,7 +37,8 @@ namespace LetsEat.Controllers
             {
                 FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
                 // find user favorite rating and category
-                var ur = _db.UserFavoriteRecipes.Find(FindUser(), item.Id);
+                UserFavoriteRecipes ur = new UserFavoriteRecipes();
+                ur = _db.UserFavoriteRecipes.Find(FindUser(), item.Id);
                 if (!string.IsNullOrWhiteSpace(ur.Category))
                 {
                     vm.Category = ur.Category;
@@ -188,7 +189,18 @@ namespace LetsEat.Controllers
             var recipe = _db.UserFavoriteRecipes.Where(x => x.RecipeId == r.Id).First();
             _db.UserFavoriteRecipes.Remove(recipe);
 
-            _db.FavoriteRecipes.Remove(r);
+            string recipeID = r.Id.ToString();
+            int recipeIDint = int.Parse(recipeID);
+            //setup to check other users with this recipe as favorite before deleting
+            var count = _db.UserFavoriteRecipes.Where(x => x.RecipeId == r.Id);
+            if(count.Count() == 1)
+            {
+                var recipeObject = _db.FavoriteRecipes.Where(x => x.Id == r.Id).First();
+                _db.FavoriteRecipes.Remove(recipeObject);
+            }
+            //if(_db.UserFavoriteRecipes.Where(a => recipeID.Contains(a.RecipeId.ToString())).Select(a => a.RecipeId).)
+            
+            
             await _db.SaveChangesAsync();
 
             return RedirectToAction("ShowAllFavorites");

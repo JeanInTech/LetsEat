@@ -26,12 +26,12 @@
                 <td><img src="../img/null_img.png" height="110" width="110" /></td>
             }
             <td>@r.title</td>
-            <td>@r.ingredients</td>
+            <td style= text-transform: capitalize>@r.ingredients</td>
             <td><a href="@r.href" class="btn btn-success">View Recipe</a></td>
             <td>
                 <form asp-controller="LetsEat" asp-action="AddToFavorites" method="post">
                     <input type="hidden" name="title" value="@r.title" />
-                    <input type="hidden" name="href" value="@r.href" />
+                    <input type="hidden" name="recipeUrl" value="@r.href" />
                     <input type="hidden" name="ingredients" value="@r.ingredients" />
                     <input type="hidden" name="thumbnail" value="@r.thumbnail" />
                     <input type="submit" value="Add to Favorites" />

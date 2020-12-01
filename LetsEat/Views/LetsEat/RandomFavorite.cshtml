@@ -7,8 +7,34 @@
         <p class="card-text"><u>Ingredients Needed:</u> @Model.Ingredients</p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">Rating: @Model.Rating/5</li>
-        <li class="list-group-item">Category: @Model.Category</li>
+        <li class="list-group-item">
+            @{
+                string rating = "";
+                string category = "";
+            }
+            Rating:
+            @if (Model.Rating.HasValue)
+            {
+                rating = @Model.Rating.ToString() + "/5";
+            }
+            else
+            {
+                rating = "N/A";
+            }
+            @rating
+        </li>
+        <li class="list-group-item">
+            Category:
+            @if (!(Model.Category is null))
+            {
+                category = @Model.Category;
+            }
+            else
+            {
+                category = "N/A";
+            }
+            @category
+        </li>
     </ul>
     <div class="card-body">
         <a href="@Model.RecipeUrl" class="card-link">Recipe Details</a>
