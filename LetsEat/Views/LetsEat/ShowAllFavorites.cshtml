@@ -12,7 +12,6 @@
         <th class="text-center"><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["RatingSortParm"]">@Html.DisplayNameFor(model => model[0].Rating)</a></th>
         <th class="text-center">Actions</th>
     </tr>
-
     @foreach (FavoriteRecipeViewModel r in Model)
     {
         <tr>
@@ -56,4 +55,9 @@
             </td>
         </tr>
     }
+    else
+    {
+        <p>Looks like you don't have any favorites. Find some using our <a asp-controller="Home" asp-action="Index">search tool</a>!</p>
+    }
+
 </table>
