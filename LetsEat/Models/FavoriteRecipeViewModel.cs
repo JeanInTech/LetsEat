@@ -13,7 +13,7 @@ namespace LetsEat.Models
         public string Ingredients { get; set; }
         public string Thumbnail { get; set; }
         public string Category { get; set; }
-        public byte Rating { get; set; }
+        public byte? Rating { get; set; }
 
     }
 }
