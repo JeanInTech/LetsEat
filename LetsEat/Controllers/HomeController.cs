@@ -29,6 +29,7 @@ namespace LetsEat.Controllers
             TempData["DishName"] = DishName;
             TempData["Ingredients"] = Ingredients;
             TempData["QueryDescription"] = BuildQueryDescription(DishName, Ingredients, ExcludedIngredients);
+            TempData["OnlyImages"] = OnlyImages;
             TempData["Page"] = Page;
             string query = BuildSearchQuery(DishName, Ingredients, ExcludedIngredients, OnlyImages, Page);
             TempData["Query"] = query;
