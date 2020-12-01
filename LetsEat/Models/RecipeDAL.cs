@@ -49,7 +49,7 @@ namespace LetsEat.Models
         }
 
 
-        public async Task<Rootobject> SeachByIngredientsAsync(string ingredients, int page)
+        public async Task<Rootobject> SearchByIngredientsAsync(string ingredients, int page)
 
         {
             var response = await _client.GetAsync($"?i={ ingredients }&p={ page }");
