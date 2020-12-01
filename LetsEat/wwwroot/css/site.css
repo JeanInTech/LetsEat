@@ -114,3 +114,11 @@ body {
 .card-text {
     text-transform: capitalize
 }
+
+body h1, h2, h3, h4, h5, h6, label {
+    color: white;
+}
+
+h5.card-title, p.card-text, a.card-link {
+    color: black;
+}

@@ -38,6 +38,7 @@ namespace LetsEat.Controllers
                 FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
                 // find user favorite rating and category
                 UserFavoriteRecipes ur = new UserFavoriteRecipes();
+
                 ur = _db.UserFavoriteRecipes.Find(FindUser(), item.Id);
                 if (!string.IsNullOrWhiteSpace(ur.Category))
                 {
@@ -209,21 +210,23 @@ namespace LetsEat.Controllers
             var recipes = from r in _db.FavoriteRecipes
                           where _db.UserFavoriteRecipes.Any(x => x.UserId == user && x.RecipeId == r.Id)
                           select r;
-
             var randomRecipe = recipes.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
-
-            // create primary key from values
-            int currentRecipeID = randomRecipe.Id;
-            var ur = _db.UserFavoriteRecipes.Find(user, currentRecipeID);
-            FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
-
-            vm.Title = randomRecipe.Title;
-            vm.Ingredients = randomRecipe.Ingredients;
-            vm.RecipeUrl = randomRecipe.RecipeUrl;
-            vm.Category = ur.Category;
-            vm.Rating = ur.Rating;
-
-            return View(vm);
+            
+            if (randomRecipe != null)
+            {     
+                // create primary key from values
+                int currentRecipeID = randomRecipe.Id;
+                var ur = _db.UserFavoriteRecipes.Find(user, currentRecipeID);
+                FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
+    
+                vm.Title = randomRecipe.Title;
+                vm.Ingredients = randomRecipe.Ingredients;
+                vm.RecipeUrl = randomRecipe.RecipeUrl;
+                vm.Category = ur.Category;
+                vm.Rating = ur.Rating;
+                return View(vm);
+            }            
+            return View("ShowAllFavorites");
         }
 
         public string FindUser()
