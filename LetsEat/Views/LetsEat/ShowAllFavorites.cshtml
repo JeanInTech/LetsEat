@@ -1,57 +1,51 @@
-﻿@model Result[]
+﻿@model List<FavoriteRecipeViewModel>
 
 <div class="jumbotron">
-    <h1 class="body">@TempData.Peek("QueryDescription")</h1>
-    <div class="float-right body"><p>Page @TempData.Peek("Page")</p></div>
+    <h1 class="body">Your Favorite Recipes</h1>
 </div>
-<table class="table table-striped table-dark">
+<table class="table table-bordered table-striped table-dark table-hover">
     <tr>
-        <th style="text-align:center">Image</th>
-        <th style="text-align:center">Recipe Name</th>
-        <th style="text-align:center">Ingredients</th>
-        <th style="text-align:center">Link</th>
-        <th style="text-align:center">Favorites</th>
+        <th></th>
+        <th>Name</th>
+        <th>Ingredients</th>
+        <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["CategorySortParm"]">@Html.DisplayNameFor(model => model[0].Category)</a></th>
+        <th><a asp-action="ShowAllFavorites" asp-route-searchString="@ViewData["CurrentFilter"]" asp-route-sortOrder="@ViewData["RatingSortParm"]">@Html.DisplayNameFor(model => model[0].Rating)</a></th>
     </tr>
-    @foreach (Result r in Model)
+
+    @foreach (FavoriteRecipeViewModel r in Model)
     {
         <tr>
-
-            @if (!string.IsNullOrEmpty(r.thumbnail))
-            {
-                <td><img src="@r.thumbnail" /></td>
-            }
-            else
-            {
-                <td><img src="../img/null_img.png" height="110" width="110" /></td>
-            }
-            <td>@r.title</td>
-            <td style=text-transform: capitalize>@r.ingredients</td>
-            <td><a href="@r.href" class="btn btn-success">View Recipe</a></td>
+            <td><a href="@r.RecipeUrl"><img src="@r.Thumbnail" /></a></td>
+            <td style="text-align:center">@r.Title</td>
+            <td style="text-transform: capitalize">@r.Ingredients</td>
+            <td style="text-align:center">
+                @if (!(r.Category is null))
+                {
+                    string value = r.Category;
+                    @value;
+                }
+                else
+                {
+                    string output = "N/A";
+                    @output;
+                }
+            </td>
+            <td style="text-align:center">
+                @if (r.Rating > 0)
+                {
+                    string value = r.Rating.ToString();
+                    @value;
+                }
+                else
+                {
+                    string output = "N/A";
+                    @output;
+                }
+            </td>
             <td>
-                <form asp-controller="LetsEat" asp-action="AddToFavorites" method="post">
-                    <input type="hidden" name="title" value="@r.title" />
-                    <input type="hidden" name="recipeUrl" value="@r.href" />
-                    <input type="hidden" name="ingredients" value="@r.ingredients" />
-                    <input type="hidden" name="thumbnail" value="@r.thumbnail" />
-                    <input type="submit" value="Add to Favorites" />
-                </form>
+                <a asp-controller="LetsEat" asp-action="EditFavorite" asp-route-id="@r.RecipeID" class="btn btn-danger align">Edit</a>
+                <a asp-controller="LetsEat" asp-action="DeleteFavorite" asp-route-id="@r.RecipeID" class="btn btn-danger align">Remove Favorite</a>
             </td>
         </tr>
     }
 </table>
-@{
-    int pageNumber = (int)TempData.Peek("Page");
-    int nextPage = pageNumber;
-    nextPage++;
-
-    if (pageNumber > 1)
-    {
-        int previousPage = pageNumber;
-        previousPage--;
-
-        <form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@previousPage><input class="float-left btn btn-dark btn-sm" type="submit" value="Previous" /></form>
-    }
-}
-<form asp-action="SearchResults" asp-route-DishName=@TempData.Peek("DishName") asp-route-Ingredients=@TempData.Peek("Ingredients") asp-route-Page=@nextPage><input class="float-right btn btn-dark btn-sm" type="submit" value="More Recipes" /></form>
-<br />
-<br />
