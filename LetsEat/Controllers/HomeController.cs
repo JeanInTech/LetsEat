@@ -24,27 +24,17 @@ namespace LetsEat.Controllers
             return View();
         }
 
-        public async Task<IActionResult> SearchResults(string DishName, string Ingredients, int Page)
+        public async Task<IActionResult> SearchResults(string DishName, string Ingredients, string ExcludedIngredients, bool OnlyImages, int Page)
         {
             TempData["DishName"] = DishName;
             TempData["Ingredients"] = Ingredients;
-            TempData["QueryDescription"] = BuildQueryDescription(DishName, Ingredients);
+            TempData["QueryDescription"] = BuildQueryDescription(DishName, Ingredients, ExcludedIngredients);
             TempData["Page"] = Page;
+            string query = BuildSearchQuery(DishName, Ingredients, ExcludedIngredients, OnlyImages, Page);
+            TempData["Query"] = query;
             Rootobject ro;
 
-            if (DishName == null)
-            {
-                ro = await _dal.SearchByIngredientsAsync(Ingredients, Page);
-                
-            }
-            else if (Ingredients == null)
-            {
-                ro = await _dal.FindRecipesAsync(DishName, Page);
-            }
-            else
-            {
-                ro = await _dal.FindRecipesAsync(DishName, Ingredients, Page);
-            }
+            ro = await _dal.FindRecipesAsync(query);
 
             Result[] results = ro.results;
 
@@ -61,22 +51,74 @@ namespace LetsEat.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public string BuildSearchQuery(string DishName, string Ingredients, string ExcludedIngredients, bool OnlyImages, int Page)
+        {
+            string query = "?";
 
-        public string BuildQueryDescription(string DishName, string Ingredients)
+            if (DishName != null)
+            {
+                query += $"q={DishName}&";
+            }
+
+            //add ingredients modifiers
+            if (Ingredients != null && ExcludedIngredients == null)
+            {
+                query += $"i={Ingredients}";
+            }
+            else if (ExcludedIngredients != null && Ingredients == null)
+            {
+                query += $"i={BuildExcludingString(ExcludedIngredients)}";
+            }
+            else if (ExcludedIngredients != null && Ingredients != null)
+            {
+                query += $"i={Ingredients},{BuildExcludingString(ExcludedIngredients)}";
+            }
+
+            if (OnlyImages == true)
+            {
+                query += $"&oi=1";
+            }
+
+            query += $"&p={Page}";
+
+            return query;
+        }
+
+        public string BuildExcludingString(string excluding)
+        {
+            string[] ingredients = excluding.Split(",");
+            string output = "";
+
+            for (int i = 0; i < ingredients.Length; i++)
+            {
+                ingredients[i] = $"-{ingredients[i].Trim()}";
+            }
+
+            output = string.Join(",", ingredients);
+            return output;
+        }
+        public string BuildQueryDescription(string DishName, string Ingredients, string ExcludedIngredients)
         {
             string queryDescription = "";
 
-            if (DishName == null)
+            if (DishName != null)
             {
-                queryDescription = $"Recipes containing: '{Ingredients}'";
+                queryDescription += $"Recipes matching: {DishName}";
             }
-            else if (Ingredients == null)
+
+            if (DishName == null && Ingredients != null)
             {
-                queryDescription = $"Recipes matching: '{DishName}'";
+                queryDescription += $"Recipes containing: '{Ingredients}'";
             }
-            else
+
+            if (Ingredients != null && DishName != null)
             {
-                queryDescription = $"Recipes matching: '{DishName}' containing: '{Ingredients}'";
+                queryDescription += $" containing: '{Ingredients}'";
+            }
+
+            if (ExcludedIngredients != null)
+            {
+                queryDescription += $"excluding: '{ExcludedIngredients}'";
             }
 
             return queryDescription;
