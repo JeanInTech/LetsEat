@@ -70,10 +70,8 @@ namespace LetsEat.Controllers
                 default:
                     break;
             }
-
             return View(OutputList);
         }
-
         public async Task<IActionResult> EditFavorite(int id)
         {
             FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
@@ -88,7 +86,6 @@ namespace LetsEat.Controllers
             vm.Rating = ur.Rating;
             return View(vm);
         }
-
         [HttpPost]
         public async Task<IActionResult> EditFavorite(FavoriteRecipes fr, string Category, byte Rating)
         {
@@ -116,7 +113,6 @@ namespace LetsEat.Controllers
 
             return View(r);
         }
-
         [HttpPost]
         public async Task<IActionResult> AddToFavorites(string title, string recipeUrl, string ingredients, string thumbnail)
         {
@@ -198,9 +194,7 @@ namespace LetsEat.Controllers
             {
                 var recipeObject = _db.FavoriteRecipes.Where(x => x.Id == r.Id).First();
                 _db.FavoriteRecipes.Remove(recipeObject);
-            }
-            //if(_db.UserFavoriteRecipes.Where(a => recipeID.Contains(a.RecipeId.ToString())).Select(a => a.RecipeId).)
-            
+            }            
             
             await _db.SaveChangesAsync();
 
@@ -213,13 +207,23 @@ namespace LetsEat.Controllers
                           where _db.UserFavoriteRecipes.Any(x => x.UserId == user && x.RecipeId == r.Id)
                           select r;
             var randomRecipe = recipes.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
+            
             if (randomRecipe != null)
-            {
-                return View(randomRecipe);
-            }
+            {     
+                // create primary key from values
+                int currentRecipeID = randomRecipe.Id;
+                var ur = _db.UserFavoriteRecipes.Find(user, currentRecipeID);
+                FavoriteRecipeViewModel vm = new FavoriteRecipeViewModel();
+    
+                vm.Title = randomRecipe.Title;
+                vm.Ingredients = randomRecipe.Ingredients;
+                vm.RecipeUrl = randomRecipe.RecipeUrl;
+                vm.Category = ur.Category;
+                vm.Rating = ur.Rating;
+                return View(vm);
+            } 
             return View("ShowAllFavorites");
         }
-
         public string FindUser()
         {
             var claimsIdentity = (ClaimsIdentity)this.User.Identity;
