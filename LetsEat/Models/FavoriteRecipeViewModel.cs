@@ -14,6 +14,5 @@ namespace LetsEat.Models
         public string Thumbnail { get; set; }
         public string Category { get; set; }
         public byte? Rating { get; set; }
-
     }
 }
